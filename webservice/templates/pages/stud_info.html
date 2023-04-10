@@ -1,0 +1,18 @@
+{% extends 'layout/main.html' %}
+{% block content  %}
+<div>
+  <h1>Student: {{ student.firstname }}</h1>
+  <h2>Grades: </h2>
+  <ul>
+    {%for grade in grades%}
+    <li>
+      {{ grade.assignment }} - {{grade.grade}}
+      <br>
+      {{ grade.comment}}
+      <br>
+      {{grade.assignment_description}}
+    </li>
+    {%endfor%}
+  </ul>
+</div>
+{% endblock  %}

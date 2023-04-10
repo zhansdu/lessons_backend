@@ -1,0 +1,13 @@
+{% extends 'layout/main.html' %}
+{% block content  %}
+<h1>You searched for: {{ name }}</h1>
+<div>
+  <h2>Students are:</h2> 
+  {% for student in students%}
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="stud_info/{{ student.stud_id }}">
+    {{ student.firstname }}
+  </a><br>
+  {% endfor%}
+</div>
+{% endblock  %}

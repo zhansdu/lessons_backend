@@ -1,0 +1,71 @@
+
+{% extends 'layout/main.html' %}
+{% block content  %}
+<div>
+  <div>
+    <h3>Students</h3>
+    <ul>
+      {% for x in students %}
+      <li>
+        {{x.stud_id}}: {{ x.firstname}}  {{x.lastname}}
+        <br>
+        <a href="stud_info/{{x.stud_id}}">Grades</a>
+      </li>
+      {% endfor%}
+    </ul>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <div>
+    <h3>Assignments</h3>
+    <ul>
+      {% for assignment in assignments %} 
+      <li>
+        {{assignment.name}}
+        <br>
+        <div class="d-flex">
+          <!-- <form action="/update_assignment" method="post">
+            {% csrf_token %}
+            <textarea name="description" cols="30" rows="10">{{assignment.description}}</textarea>
+            <input type="text" name="id" value="{{assignment.assignment_number}}">
+            <button>Go</button>
+          </form> -->
+          <form action="#" onsubmit="updateDescription(event,'{{assignment.assignment_number}}')">
+            <textarea id="assignment_{{assignment.assignment_number}}" cols="30" rows="10">{{assignment.description}}</textarea>
+            <button type="submit">Update</button>
+          </form> 
+          <div class="ms-3">
+          </div>
+        </div>
+      </li>
+      {% endfor%}
+    </ul>
+    
+  </div>
+</div>
+<script>
+  function updateDescription(event,assignment_number){
+    event.preventDefault();
+    let value = document.getElementById('assignment_'+assignment_number).value
+    let data = {
+      id: assignment_number,
+      description:value,
+    }
+    csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch('http://127.0.0.1:8000/update_assignment',
+    {
+      method:'POST',
+      headers: {
+        "Content-Type":"application/json",
+        'X-CSRFToken': csrftoken
+      },
+      body:JSON.stringify(data)
+    }).then(response=>{
+      return response.json()
+    }).then(json=>{
+      alert(json.assignment_number + ': '+json.assignment_info +' - changed. ' + json.message);
+    })
+  }
+</script>
+{% endblock  %}
